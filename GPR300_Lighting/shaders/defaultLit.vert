@@ -2,6 +2,7 @@
 layout (location = 0) in vec3 vPos;  
 layout (location = 1) in vec3 vNormal;
 layout (location = 2) in vec2 vUV;
+// layout (location = 4) in vec3 vTangent;
 
 uniform mat4 _Model;
 uniform mat4 _View;
@@ -18,6 +19,8 @@ out struct Vertex
     vec3 worldPosition;
     vec2 uv; // world?
 }vertexOutput;
+
+// out mat3 TBM;
 
 void main(){    
 
@@ -39,6 +42,8 @@ void main(){
     vertexOutput.worldNormal = transpose(inverse(mat3(_Model))) * vNormal;
 
     vertexOutput.uv = vUV;
+
+    // calculate TBM. TBM allows access to tangent without having to pass the tangent in frag shader?
 
     gl_Position = _Projection * _View * _Model * vec4(vPos,1);
 }

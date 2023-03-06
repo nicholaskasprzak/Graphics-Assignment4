@@ -191,9 +191,7 @@ void main(){
     vec3 normal = normalize(vertexOutput.worldNormal);
 
     //FragColor = vec4(lightCol * _Material.color, 1.0f);
-
-    //vec2 newUV = vertexOutput.uv;
-    // atan(z / x)) / (2 * 3.14)
-    //newUV.x = atan(vertexOutput.worldNormal.z / vertexOutput.worldNormal.x) / (2 * 3.141592653589793238462643383279);
     FragColor = texture(_Texture1, vertexOutput.uv);
+
+    // texture(_Normal, vertexOutput.uv).rgb; ?
 }

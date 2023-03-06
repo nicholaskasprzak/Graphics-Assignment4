@@ -162,7 +162,8 @@ namespace ew {
 
 				glm::vec3 position = glm::vec3(x, y, z);
 				glm::vec3 normal = glm::normalize(glm::vec3(x, y, z));
-				glm::vec2 uv = glm::vec2(s, y); // this has a seam i dont know how to fix
+				glm::vec2 uv = glm::vec2(std::lerp(i, numSegments), y); // this has a seam i dont know how to fix
+				//glm::lerp
 
 				meshData.vertices.push_back({ position, normal, uv });
 			}
