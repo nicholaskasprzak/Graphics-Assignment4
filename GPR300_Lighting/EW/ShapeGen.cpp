@@ -157,13 +157,15 @@ namespace ew {
 				float y = radius * cosf(phi);
 				float z = radius * sinf(phi) * cosf(theta);
 
-				float s = atan(z / x) / (2 * 3.14);
-				float t = acos(y) / 3.14;
+				float s = glm::mix((float)j, (float)j+1, (float)(1 / numSegments));
+				s = s / (float)numSegments;
+
+				float t = glm::mix((float)i, (float)i+1, (float)(1 / numSegments));
+				t = t / (float)numSegments;
 
 				glm::vec3 position = glm::vec3(x, y, z);
 				glm::vec3 normal = glm::normalize(glm::vec3(x, y, z));
-				glm::vec2 uv = glm::vec2(std::lerp(i, numSegments), y); // this has a seam i dont know how to fix
-				//glm::lerp
+				glm::vec2 uv = glm::vec2(s, t);
 
 				meshData.vertices.push_back({ position, normal, uv });
 			}
