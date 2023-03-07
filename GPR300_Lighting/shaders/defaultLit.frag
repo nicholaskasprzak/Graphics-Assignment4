@@ -71,6 +71,12 @@ uniform vec3 _CameraPosition;
 uniform sampler2D _Texture1;
 uniform sampler2D _Texture2;
 
+uniform float time;
+uniform float scrollSpeedX;
+uniform float scrollSpeedY;
+uniform float scalingX;
+uniform float scalingY;
+
 /*
 * Calculates the ambient of a light.
 *
@@ -174,8 +180,10 @@ float calcAngularAttenuation(SpotLight light, vec3 vertPos)
     return attenuation;
 }
 
+// texture(_Normal, vertexOutput.uv).rgb;
 void main(){    
 
+    /*
     vec3 lightCol;
 
     lightCol += calcPhong(vertexOutput, _Material, _DirectionalLight.light, _DirectionalLight.direction, _CameraPosition);
@@ -191,7 +199,12 @@ void main(){
     vec3 normal = normalize(vertexOutput.worldNormal);
 
     //FragColor = vec4(lightCol * _Material.color, 1.0f);
-    FragColor = texture(_Texture1, vertexOutput.uv);
+    */
 
-    // texture(_Normal, vertexOutput.uv).rgb; ?
+    vec2 modifiedUV = vertexOutput.uv;
+
+    modifiedUV.x = (scrollSpeedX * time) + scalingX * modifiedUV.x;
+    modifiedUV.y = (scrollSpeedY * time) + scalingY * modifiedUV.y;
+
+    FragColor = texture(_Texture1, modifiedUV);
 }

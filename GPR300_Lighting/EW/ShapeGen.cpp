@@ -232,7 +232,11 @@ namespace ew {
 				halfHeight,
 				sin(i * thetaStep) * radius
 			);
-			meshData.vertices.push_back(Vertex(pos, glm::vec3(0, 1, 0), glm::vec2(pos.x, pos.y)));
+
+			float s = (pos.x / radius + 1) * 0.5f;
+			float t = (pos.z / radius + 1) * 0.5f;
+
+			meshData.vertices.push_back(Vertex(pos, glm::vec3(0, 1, 0), glm::vec2(s, t)));
 		}
 
 		//Bottom cap (facing down)
@@ -245,7 +249,11 @@ namespace ew {
 				-halfHeight,
 				sin(i * thetaStep) * radius
 			);
-			meshData.vertices.push_back(Vertex(pos, glm::vec3(0, -1, 0), glm::vec2(pos.x, pos.y)));
+
+			float s = (pos.x / radius + 1) * 0.5f;
+			float t = (pos.z / radius + 1) * 0.5f;
+
+			meshData.vertices.push_back(Vertex(pos, glm::vec3(0, -1, 0), glm::vec2(s, t)));
 		}
 
 		//Sides (facing out)
@@ -256,7 +264,9 @@ namespace ew {
 			glm::vec3 pos = meshData.vertices[i + 1].position;
 			glm::vec3 normal = glm::normalize((pos - meshData.vertices[0].position));
 
-			float s = pos.x;
+			float s = glm::mix((float)i, (float)i + 1, (float)(1 / numSegments));
+			s = s / (float)numSegments;
+
 			float t = pos.y;
 
 			meshData.vertices.push_back(Vertex(pos, normal, glm::vec2(s, t)));
@@ -267,7 +277,9 @@ namespace ew {
 			glm::vec3 pos = meshData.vertices[bottomCenterIndex + i + 1].position;
 			glm::vec3 normal = glm::normalize((pos - meshData.vertices[bottomCenterIndex].position));
 
-			float s = pos.x;
+			float s = glm::mix((float)i, (float)i + 1, (float)(1 / numSegments));
+			s = s / (float)numSegments;
+
 			float t = pos.y;
 
 			meshData.vertices.push_back(Vertex(pos, normal, glm::vec2(s, t)));

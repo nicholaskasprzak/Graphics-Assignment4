@@ -244,6 +244,11 @@ int main() {
 	GLuint brickTexture = getTexture("Bricks.jpg");
 	GLuint tileTexture = getTexture("Tiles.jpg");
 
+	float scrollSpeedX = 0;
+	float scrollSpeedY = 0;
+	float scalingX = 1;
+	float scalingY = 1;
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, brickTexture);
 	litShader.setInt("_Texture1", 0);
@@ -266,9 +271,17 @@ int main() {
 		lastFrameTime = time;
 
 		litShader.use();
+
+		litShader.setFloat("time", time);
 		litShader.setMat4("_Projection", camera.getProjectionMatrix());
 		litShader.setMat4("_View", camera.getViewMatrix());
 
+		litShader.setFloat("scrollSpeedX", scrollSpeedX);
+		litShader.setFloat("scrollSpeedY", scrollSpeedY);
+		litShader.setFloat("scalingX", scalingX);
+		litShader.setFloat("scalingY", scalingY);
+
+		/*
 		litShader.setVec3("_DirectionalLight.direction", _DirectionalLight.direction);
 		litShader.setFloat("_DirectionalLight.light.intensity", _DirectionalLight.light.intensity);
 		litShader.setVec3("_DirectionalLight.light.color", _DirectionalLight.light.color);
@@ -329,7 +342,7 @@ int main() {
 		litShader.setFloat("_Material.diffuseK", _Material.diffuseK);
 		litShader.setFloat("_Material.specularK", _Material.specularK);
 		litShader.setFloat("_Material.shininess", _Material.shininess);
-
+		*/
 		litShader.setVec3("_CameraPosition", camera.getPosition());
 
 		//Draw quad
@@ -354,6 +367,7 @@ int main() {
 
 		//Draw UI
 
+		/*
 		ImGui::Begin("Directional Light");
 
 		ImGui::DragFloat3("Direction", &_DirectionalLight.direction.x, 1, 0, 360);
@@ -391,6 +405,15 @@ int main() {
 		ImGui::DragFloat("Diffuse", &_Material.diffuseK, 0.01, 0, 1);
 		ImGui::DragFloat("Specular", &_Material.specularK, 0.01, 0, 1);
 		ImGui::DragFloat("Shininess", &_Material.shininess, 1, 1, 512);
+		ImGui::End();
+		*/
+
+		ImGui::Begin("Texture");
+
+		ImGui::DragFloat("Scroll Speed X", &scrollSpeedX, 0.1, -1, 1);
+		ImGui::DragFloat("Scroll Speed Y", &scrollSpeedY, 0.1, -1, 1);
+		ImGui::DragFloat("Scale X", &scalingX, 1, 1, 5);
+		ImGui::DragFloat("Scale Y", &scalingY, 1, 1, 5);
 		ImGui::End();
 
 		ImGui::Render();
